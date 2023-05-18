@@ -1,188 +1,288 @@
-package csa;
-import java.util.*;
-public class Main{
-    public static void main(String [] args) {
-        System.out.println("<-------第一题------->");
-        Monkey one=new Monkey("Tom");
-        System.out.println("我是猴子"+one.getName());
-        one.speak();
-        People two=new People("Saa");
-        System.out.println("我是人类"+two.getName());
-        two.speak();
-        two.think();
+package ADM;
 
-        System.out.println("<-------第二题------->");
-        Car car=new Car(4,1110,5);
-        System.out.println(car);
-        System.out.println("-------------------");
-        Truck truck=new Truck(6,15000,2,3500);
-        System.out.println(truck);
+import java.util.ArrayList;
+import  java.util.Scanner;
+public class Main {
+    static ArrayList<Student> students = new ArrayList<>();
+    static Scanner sc = new Scanner(System.in);
 
-        System.out.println("<-------第三题------->");
-        System.out.println(getSum("13829579081298345918257","438823897418920918472193"));
-
-        System.out.println("<-------第四题------->");
-        int m=7;
-        int n=6;
-        System.out.println(uniquePaths(m,n)+"种");
-
-        System.out.println("<-------第五题------->");
-        String[] str= {"f1ower","f1ow","f1ight"};
-        Solution solution=new Solution();
-        String s = solution.longstCommonPrefix(str);
-        System.out.println("\""+s+"\"");
-
-    }
-    public static String getSum(String a,String b){
-        List<Integer> la = new ArrayList<Integer>();
-        List<Integer> lb = new ArrayList<Integer>();
-        String c="";
-        for(int i=a.length()-1;i>=0;--i){
-            la.add(a.charAt(i)-'0');
-        }
-        for(int i=b.length()-1;i>=0;--i){
-            lb.add(b.charAt(i)-'0');
-        }
-        List<Integer> lc = new ArrayList<Integer>();
-        int tmp=0;
-        int maxsize = Math.max(la.size(),lb.size());
-        for (int i = 0; i < maxsize; i++) {
-            if(i<la.size()){
-                tmp += la.get(i);
+    public static void main(String[] args) {
+        show0();
+        while (true) {
+            show1();
+            int count = sc.nextInt();
+            if (count == 7)
+                break;
+            switch (count) {
+                case 1:
+                    show();
+                    break;
+                case 2:
+                    add();
+                    break;
+                case 3:
+                    delect();
+                    break;
+                case 4:
+                    search();
+                    break;
+                case 5:
+                    modify();
+                    break;
+                case 6:
+                    count();
+                    break;
+                default:
+                    System.out.println("请输入正确的序号。");
             }
-            if(i<lb.size()){
-                tmp += lb.get(i);
-            }
-            lc.add(tmp%10);
-            tmp /= 10;
         }
-        if(tmp>0)
-            lc.add(tmp%10);
-        for(int i = lc.size()-1;i>=0;i--){
-            c += lc.get(i);
-        }
-        return c;
     }
-    public static int uniquePaths(int m, int n){
-        int a[][]=new int[m][n];
+
+    static void show0() {
+        Student student0 = new Student("2021212130", "秦帅哥", "男", "21", "2001-01-01", "理学院 ", 88);
+        Student student1 = new Student("2021212131", "张三儿", "男", "20", "2002-01-14", "软件学院 ", 86);
+        Student student2 = new Student("2021212132", "李美女", "女", "19", "2003-02-15", "经管学院 ", 80);
+        Student student3 = new Student("2021212133", "贺大凉", "女", "21", "2001-06-25", "传媒学院 ", 90);
+        Student student4 = new Student("2021212134", "秀秀 ", "女", "20", "2002-11-18", "计算机学院", 98);
+        Student student5 = new Student("2021212135", "陈保安", "男", "21", "2001-05-05", "通信学院 ", 60);
+        Student student6 = new Student("2021212136", "郑钱 ", "女", "18", "2004-10-01", "通信学院 ", 100);
+        students.add(student0);
+        students.add(student1);
+        students.add(student2);
+        students.add(student3);
+        students.add(student4);
+        students.add(student5);
+        students.add(student6);
+    }
+
+    public static void show1() {
+        System.out.println("***********************************");
+        System.out.println("***********  学生管理系统  ***********");
+        System.out.println("**********  1.显示学生信息  **********");
+        System.out.println("**********  2.增加学生信息  **********");
+        System.out.println("**********  3.删除学生信息  **********");
+        System.out.println("**********  4.修改学生信息  **********");
+        System.out.println("**********  5.修改学生信息  **********");
+        System.out.println("**********  6.统计学生信息  **********");
+        System.out.println("**********  7.退出学生系统  **********");
+        System.out.println("***********************************");
+        System.out.println("请选择其功能：");
+    }
+
+    public static void show() {
+        System.out.println("*************学生信息表*****************");
+        System.out.println("序号\t学号\t\t\t\t姓名\t\t\t性别\t\t年龄\t\t出生日期\t\t\t学院\t\t\t成绩");
+        for (int i = 0; i < students.size(); i++) {
+            final Student student = students.get(i);
+            System.out.println(i + 1 + "\t" + student.getId() + "\t\t" + student.getName() + "\t\t" + student.getSex() + "\t\t"
+                    + student.getAge() + "\t\t" + student.getBrithday() + "\t\t" + student.getCollege() + "\t\t" + student.getGrade());
+        }
+        System.out.println("**************************************");
+    }
+
+    public static void add() {
+        System.out.print("请输入您要添加学生的个数:");
+        int num = sc.nextInt();
+        for (int i = 0; i < num; i++) {
+            System.out.print("请输入您要添加的学号:");
+            String str = sc.next();
+            int count = 0;
+            for (Student student : students) {
+                if (student.getId().equals(str)) {
+                    System.out.println("已有此人！");
+                    break;
+                }
+                count++;
+            }
+            if (count == students.size()) {
+                System.out.print("添加的学生的姓名:");
+                String str1 = sc.next();
+                System.out.print("添加的学生的性别:");
+                String str2 = sc.next();
+                System.out.print("添加的学生的年龄:");
+                String str3 = sc.next();
+                System.out.print("添加的学生的出生日期(yyyy-mm-dd):");
+                String str4 = sc.next();
+                System.out.print("添加的学生的学院:");
+                String str5 = sc.next();
+                System.out.print("添加的学生的成绩:");
+                int str6 = sc.nextInt();
+                Student student = new Student(str, str1, str2, str3, str4, str5, str6);
+                students.add(student);
+                System.out.println("添加成功！");
+            }
+        }
+    }
+    public static void delect(){
+        System.out.println("请输入需要删除的学生的学号：" );
+        String str= sc.next();
+        int count =0;
+        int n=students.size();
         for(int i=0;i<n;i++){
-            a[0][i]=1;
-        }
-        for(int j=0;j<m;j++){
-            a[j][0]=1;
-        }
-        for(int i=1;i<m;i++){
-            for(int j=1;j<n;j++){
-                a[i][j]=a[i][j-1]+a[i-1][j];
-            }
-        }
-        return a[m-1][n-1];
-    }
-
-}
-
-class Monkey{
-    String name;
-
-    public Monkey() {
-    }
-
-    public Monkey(String s) {
-        name = s;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void speak() {
-        System.out.println("咿咿呀呀 ......");
-    }
-}
-class People extends Monkey{
-    public People(String s) {
-        super(s);
-    }
-    public void speak() {
-        System.out.println("小样儿，不错嘛！会说话了！");
-    }
-    void think() {
-        System.out.println("别说话！认真思考！  ");
-    }
-}
-class Vehicle{
-    int wheels;
-    double weight;
-
-    public Vehicle() {
-    }
-
-    public Vehicle(int wheels, double weight) {
-        this.wheels = wheels;
-        this.weight = weight;
-    }
-}
-class Car extends Vehicle{
-    int loader;
-
-    public Car() {
-    }
-    public Car(int wheels, double weight, int loader) {
-        super(wheels, weight);
-        this.loader = loader;
-    }
-
-    @Override
-    public String toString() {
-        return "车轮的个数是："+wheels+" 车重："+weight+"\n" +
-                "这是一辆小车，能载6人，实载"+loader+"人"+(loader>=6?"，你超员了！！！":"");
-    }
-}
-class Truck extends Vehicle{
-    int loader;
-    double payload;
-
-    public Truck() {
-    }
-
-    public Truck(int wheels, double weight, int loader,double payload) {
-        super(wheels, weight);
-        this.loader = loader;
-        this.payload = payload;
-    }
-
-    @Override
-    public String toString() {
-        return "车轮的个数是："+wheels+" 车重："+weight+"\n"+
-                "这是一辆卡车，能载3人，实载"+loader+"人"+(loader>=3?"，你超员了！！！":"")+"\n"+
-                "这是一辆卡车，核载5000kg，你已装载"+payload+"kg"+(payload>5000.0?"，你超载了！！！":"");
-    }
-}
-class Solution{
-    public static String longstCommonPrefix(String[] str) {
-        String ans="";
-        if(str==null||str.length==0) {
-            return ans;
-        }
-        String pre=str[0];
-        int count=str.length;
-        for(int i=1;i<count;i++) {
-            pre=proStr(pre,str[i]);
-            if(pre.length()==0) {
+            Student student=students.get(i);
+            if(student.getId().equals(str)){
+                students.remove(i);
+                System.out.println("删除成功。");
                 break;
             }
+            count++;
+        if(count==n){
+            System.out.println("没有此人");
         }
-        return pre;
+        }
     }
-    public static String proStr(String str1,String str2) {
-        int min=Math.min(str1.length(), str2.length());
-        int index=0;
-        while(index<min&&str1.charAt(index)==str2.charAt(index)) {
-            index++;
+    public static void search(){
+        System.out.println("请输入你需要查找的学号");
+        String str= sc.next();
+        int count=0;
+        for (Student student:students){
+            if(student.getId().equals(str)){
+                System.out.println(student.getId() + "\t" + student.getName() + "\t\t" + student.getSex() + "\t\t" +
+                        student.getAge() + "\t\t" + student.getBrithday() + "\t\t" + student.getCollege() + "\t\t" + student.getGrade());
+                break;
+            }
+            count++;
         }
-        return str1.substring(0,index);
+        if(count==students.size()){
+            System.out.println("没有此人");
+        }
+    }
+    public static void modify(){
+        System.out.println("请输入你要修改的学号");
+        String str= sc.next();
+        int count=0;
+        for(Student student:students){
+            if(student.getId().equals(str)){
+                while (true){
+                    System.out.println("*******************************");
+                    System.out.println("**********  1.学生姓名 **********");
+                    System.out.println("**********  2.学生性别 **********");
+                    System.out.println("**********  3.学生出生日期  ******");
+                    System.out.println("**********  4.学生年龄  **********");
+                    System.out.println("**********  5.学生学院  **********");
+                    System.out.println("**********  6.学生成绩  **********");
+                    System.out.println("*********************************");
+                    System.out.println("请输入你要修改的选项：");
+                    int number=sc.nextInt();
+                    if(number==1||number==2||number==3||number==4||number==5||number==6){
+                        System.out.println("修改为：");
+                        String sr= sc.next();
+                        switch (number){
+                            case 1:
+                                student.setName(sr);
+                                break;
+                            case 2:
+                                student.setSex(sr);
+                                break;
+                            case 3:
+                                student.setBrithday(sr);
+                                break;
+                            case 4:
+                                student.setAge(sr);
+                                break;
+                            case 5:
+                                student.setCollege(sr);
+                                break;
+                            case 6:
+                                student.setGrade(Integer.parseInt(sr));
+                                break;
+                        }
+                        System.out.println("修改成功");
+                        break;
+                    }
+                    else {
+                        System.out.println("请输入正确的序号。");
+                    }
+                }
+                break;
+            }
+            count++;
+        }
+        if(count==students.size()){
+            System.out.println("没有此人");
+        }
+    }
+    public static void count(){
+        System.out.println("学生总人数为："+students.size());
     }
 }
+
+
+    class Student {
+        private String id;
+        private String name;
+        private String sex;
+        private String age;
+        private String brithday;
+        private String college;
+        private int grade;
+
+        public Student() {
+        }
+
+        public Student(String id, String name, String sex, String age, String brithday, String college, int grade) {
+            this.id = id;
+            this.name = name;
+            this.sex = sex;
+            this.age = age;
+            this.brithday = brithday;
+            this.college = college;
+            this.grade = grade;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getSex() {
+            return sex;
+        }
+
+        public void setSex(String sex) {
+            this.sex = sex;
+        }
+
+        public String getAge() {
+            return age;
+        }
+
+        public void setAge(String age) {
+            this.age = age;
+        }
+
+        public String getBrithday() {
+            return brithday;
+        }
+
+        public void setBrithday(String brithday) {
+            this.brithday = brithday;
+        }
+
+        public String getCollege() {
+            return college;
+        }
+
+        public void setCollege(String college) {
+            this.college = college;
+        }
+
+        public int getGrade() {
+            return grade;
+        }
+
+        public void setGrade(int grade) {
+            this.grade = grade;
+        }
+    }
