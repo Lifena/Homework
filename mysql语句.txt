@@ -1,0 +1,134 @@
+#1
+create table cqupt_student (
+studentid VARCHAR(10),
+name VARCHAR(20),
+sex VARCHAR(2),
+age INTEGER,
+fee DECIMAL(10,2),
+address VARCHAR(50),
+memo VARCHAR(300)
+);
+#2
+drop table chooseBb
+CREATE table courseAa (
+Aa1 VARCHAR(20),
+Aa2 INTEGER,
+Aa3 DECIMAL(10,0)
+);
+#3
+CREATE table chooseBb (
+Bb1 VARCHAR(30),
+Bb2 INTEGER ,
+Bb3 decimal(6)
+) CHARSET='utf8';
+#4
+alter table chooseBb add Bb4 VARCHAR(20) not null DEFAULT '系统测试值';
+#5
+alter table chooseBb add Bb5 VARCHAR(10) key;
+#6
+create view view_choosebb as select Bb1 view_bb1, Bb4 view_bb2,Bb5 view_bb3 FROM chooseBb;
+#7
+drop view view_choosebb;
+#8
+create INDEX index_bb2 on chooseBb(Bb2);
+create index index_bb4 on chooseBb(Bb4);
+#9
+drop index index_bb2;
+#10
+create table test (
+Name VARCHAR(20),
+Age Integer,
+Score NUMERIC(10,2),
+Address VARCHAR(60)
+) charset='utf8';
+#11
+INSERT test VALUES('赵一',20,580.00,'重邮宿舍12-3-5');
+INSERT test VALUES('钱二',19,540.00,'南福苑5-2-9');
+INSERT test VALUES('孙三',21,555.50,'学生新区21-5-15');
+INSERT test VALUES('李四',22,505.00,'重邮宿舍8-6-22');
+INSERT test VALUES('周五',20,495.50,'学生新区23-4-8');
+INSERT test VALUES('吴六',19,435.00,'学生新区23-4-8');
+#12
+CREATE TABLE temp(
+NAME VARCHAR(20),
+age INT,
+score NUMERIC(10,2),
+address VARCHAR(60)
+) CHARSET='utf8';
+#13
+INSERT temp VALUES('郑七',21,490.50,'重邮宿舍11-2-1');
+INSERT temp VALUES('张八',20,560.00,'南福苑3-3-3');
+INSERT temp VALUES('王九',10,515.00,'学生新区19-7-1');
+#14
+INSERT test SELECT * FROM temp;
+#15
+UPDATE test set Score = Score+5 WHERE age <= 20;
+#16
+UPDATE test set age = age - 1 where address like '南福苑%';
+#17
+delete from test where age >= 21 and score >= 500;
+#18
+delete from test where score < 550 and address like '重邮宿舍%';
+#19
+create table student (
+sno VARCHAR(20),
+name VARCHAR(10),
+age INTEGER,
+college VARCHAR(30)
+) charset='utf8';
+#20
+CREATE table course (
+courseID VARCHAR(15),
+courseName VARCHAR(30),
+courseBeforeID VARCHAR(15)
+) charset='utf8';
+#21
+drop table choose ;
+create table choose (
+sno VARCHAR(20),
+courseID VARCHAR(30),
+score DECIMAL(5,2)
+) CHARSET='utf8';
+#22
+INSERT student VALUES('s00001','张三',20,'计算机学院');
+INSERT student VALUES('s00002','李四',19,'通信学院');
+INSERT student VALUES('s00003','王五',21,'计算机学院');
+#23
+INSERT course VALUES('c1','计算机引论',NULL);
+INSERT course VALUES('c2','c语言','c1');
+INSERT course VALUES('c3','数据结构','c2');
+#24
+INSERT choose VALUES('s00001','c1',95);
+INSERT choose VALUES('s00001','c2',80);
+INSERT choose VALUES('s00001','c3',84);
+INSERT choose VALUES('s00002','c1',80);
+INSERT choose VALUES('s00002','c2',85);
+INSERT choose VALUES('s00003','c1',78);
+INSERT choose VALUES('s00003','c3',70);
+#25
+select sno,name FROM student where college like '计算机学院';
+#26
+select * from student where age BETWEEN 20 and 23;
+#27
+select count(*) from student;
+#28
+select max(score),MIN(score),sum(score),avg(score) from choose;
+#29
+select courseID,courseName from course where courseBeforeID is null;
+#30
+#全连接查询
+select student.sno,student.`NAME`,course.courseName,choose.score from choose ,student,course where choose.sno = student.sno and choose.courseID = course.courseID;
+#左外连接查询
+select student.sno,student.`NAME`,course.courseName,choose.score from choose left join student on choose.sno = student.sno left join course on choose.courseID = course.courseID
+#31
+#不用exists
+select * from student where college in (select college FROM student WHERE name like '张三');
+#使用exists
+select * FROM student a WHERE EXISTS (select * FROM student b where name like '张三' and a.college = b.college);
+#32
+select student.sno,choose.score from choose,student where choose.score < (
+select score from choose,student where choose.sno = student.sno and choose.courseID like 'c1' and student.`NAME` like '张三') and choose.sno = student.sno and choose.courseID like 'c1'
+#33
+SELECT s1.sno FROM (SELECT * FROM choose WHERE courseid='c1' UNION SELECT * FROM choose WHERE courseid='c2') s1;
+#34
+SELECT DISTINCT s1.sno FROM (SELECT * FROM choose WHERE courseid='c1' UNION SELECT * FROM choose WHERE courseid='c2') s1;
